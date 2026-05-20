@@ -330,12 +330,7 @@ pub fn build_arp_request<'py>(
 /// Send pre-built IPv4 packet bytes via a Layer3 raw socket.
 #[pyfunction]
 #[pyo3(signature = (dst, packet, *, protocol = "tcp"))]
-pub fn send_ipv4_bytes(
-    py: Python<'_>,
-    dst: &str,
-    packet: Vec<u8>,
-    protocol: &str,
-) -> PyResult<()> {
+pub fn send_ipv4_bytes(py: Python<'_>, dst: &str, packet: Vec<u8>, protocol: &str) -> PyResult<()> {
     let dst_ip = parse_ipv4(dst)?;
     let proto = match protocol.to_ascii_lowercase().as_str() {
         "tcp" => IpNextHeaderProtocols::Tcp,

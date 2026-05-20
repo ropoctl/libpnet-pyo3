@@ -14,10 +14,7 @@ pub fn source_ipv4_for_addr(dst: Ipv4Addr) -> std::io::Result<Ipv4Addr> {
     sock.connect((dst, 65535))?;
     match sock.local_addr()?.ip() {
         IpAddr::V4(a) => Ok(a),
-        IpAddr::V6(_) => Err(std::io::Error::new(
-            std::io::ErrorKind::Other,
-            "expected IPv4 source",
-        )),
+        IpAddr::V6(_) => Err(std::io::Error::other("expected IPv4 source")),
     }
 }
 

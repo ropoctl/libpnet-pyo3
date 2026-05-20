@@ -24,7 +24,10 @@ pub struct ArpReply {
 #[pymethods]
 impl ArpReply {
     fn __repr__(&self) -> String {
-        format!("ArpReply(ip={}, mac={}, iface={})", self.ip, self.mac, self.iface)
+        format!(
+            "ArpReply(ip={}, mac={}, iface={})",
+            self.ip, self.mac, self.iface
+        )
     }
 }
 

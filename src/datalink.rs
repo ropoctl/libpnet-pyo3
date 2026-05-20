@@ -72,11 +72,10 @@ pub struct InterfaceInfo {
 pub fn interface_or_default(name: Option<&str>) -> Result<InterfaceInfo, PyErr> {
     let ifaces = pnet::datalink::interfaces();
     let chosen = match name {
-        Some(n) => ifaces.into_iter().find(|i| i.name == n).ok_or_else(|| {
-            value_err(format!(
-                "no interface named '{n}'; see list_interfaces()"
-            ))
-        })?,
+        Some(n) => ifaces
+            .into_iter()
+            .find(|i| i.name == n)
+            .ok_or_else(|| value_err(format!("no interface named '{n}'; see list_interfaces()")))?,
         None => {
             // Default: first up, non-loopback, with an IPv4 address.
             ifaces

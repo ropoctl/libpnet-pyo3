@@ -57,7 +57,9 @@ pub fn sniff(
     timeout: Option<f64>,
 ) -> PyResult<Vec<SniffedPacket>> {
     if count.is_none() && timeout.is_none() {
-        return Err(value_err("sniff() requires at least one of count= or timeout="));
+        return Err(value_err(
+            "sniff() requires at least one of count= or timeout=",
+        ));
     }
 
     let info = interface_or_default(iface)?;
@@ -65,8 +67,10 @@ pub fn sniff(
     let pnet_iface = info.pnet.clone();
 
     py.allow_threads(move || {
-        let mut cfg = Config::default();
-        cfg.read_timeout = Some(Duration::from_millis(200));
+        let cfg = Config {
+            read_timeout: Some(Duration::from_millis(200)),
+            ..Default::default()
+        };
         let (_tx, mut rx) = match pnet::datalink::channel(&pnet_iface, cfg) {
             Ok(Channel::Ethernet(tx, rx)) => (tx, rx),
             Ok(_) => return Err(value_err("unsupported datalink channel type")),

@@ -2,8 +2,11 @@
 //!
 //! See README.md for the Python API surface.
 
-use pyo3::prelude::*;
+// pyo3 macro expansions trip these lints — globally suppress.
+#![allow(clippy::useless_conversion, clippy::too_many_arguments)]
+
 use pnet::packet::tcp::TcpFlags;
+use pyo3::prelude::*;
 
 mod arp;
 mod datalink;
