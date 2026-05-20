@@ -1,0 +1,27 @@
+[package]
+name = "libpnet-pyo3"
+version = "0.1.0"
+edition = "2021"
+authors = ["clearwing contributors"]
+license = "MIT OR Apache-2.0"
+description = "pyo3 bindings for libpnet"
+repository = "https://github.com/Lazarus-AI/libpnet-pyo3"
+keywords = ["networking", "packet", "scapy", "pyo3", "libpnet"]
+categories = ["network-programming", "api-bindings"]
+
+[lib]
+name = "libpnet_pyo3"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module", "abi3-py310"] }
+pnet = "0.35"
+pnet_datalink = "0.35"
+pnet_packet = "0.35"
+pnet_transport = "0.35"
+rand = "0.8"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true

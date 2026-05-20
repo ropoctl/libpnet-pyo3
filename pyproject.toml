@@ -1,0 +1,48 @@
+[build-system]
+requires = ["maturin>=1.7,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "libpnet-pyo3"
+version = "0.1.0"
+description = "pyo3 bindings for libpnet"
+readme = "README.md"
+license = { text = "MIT OR Apache-2.0" }
+requires-python = ">=3.10"
+authors = [
+    { name = "clearwing contributors" },
+]
+keywords = ["networking", "packet", "scapy", "raw-socket", "libpnet"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Rust",
+    "Topic :: System :: Networking",
+    "Topic :: Security",
+]
+
+[project.urls]
+Repository = "https://github.com/Lazarus-AI/libpnet-pyo3"
+Issues = "https://github.com/Lazarus-AI/libpnet-pyo3/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "maturin>=1.7",
+]
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+module-name = "libpnet_pyo3._native"
+python-source = "python"
+strip = true

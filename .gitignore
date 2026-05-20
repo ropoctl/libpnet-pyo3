@@ -1,0 +1,15 @@
+/target
+/dist
+*.so
+*.pyd
+*.dll
+*.dylib
+*.egg-info
+__pycache__
+.venv
+venv
+.pytest_cache
+.ruff_cache
+.mypy_cache
+Cargo.lock
+.DS_Store
