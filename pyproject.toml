@@ -32,8 +32,8 @@ classifiers = [
 ]
 
 [project.urls]
-Repository = "https://github.com/Lazarus-AI/libpnet-pyo3"
-Issues = "https://github.com/Lazarus-AI/libpnet-pyo3/issues"
+Repository = "https://github.com/ropoctl/libpnet-pyo3"
+Issues = "https://github.com/ropoctl/libpnet-pyo3/issues"
 
 [project.optional-dependencies]
 dev = [

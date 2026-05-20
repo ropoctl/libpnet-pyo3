@@ -104,7 +104,7 @@ for pkt in sniff(count=10, timeout=5.0):
 Requires Rust (stable, 1.74+) and Python 3.10+.
 
 ```bash
-git clone https://github.com/Lazarus-AI/libpnet-pyo3
+git clone https://github.com/ropoctl/libpnet-pyo3
 cd libpnet-pyo3
 python -m venv .venv && source .venv/bin/activate
 pip install maturin
