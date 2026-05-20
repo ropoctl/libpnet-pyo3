@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "libpnet-pyo3"
-version = "0.1.0"
+version = "0.1.1"
 description = "pyo3 bindings for libpnet"
 readme = "README.md"
 license = { text = "MIT OR Apache-2.0" }

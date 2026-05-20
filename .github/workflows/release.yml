@@ -1,13 +1,15 @@
 # Build and publish wheels for libpnet-pyo3.
 #
 # Triggers:
-#   - push of a `v*.*.*` tag: build the full matrix, publish to PyPI.
-#   - workflow_dispatch: build the full matrix, upload wheels as CI artifacts
-#     only (no PyPI publish). Use this to verify a release before tagging.
+#   - push of a `v*.*.*` tag: build, publish to PyPI.
+#   - workflow_dispatch: build only (no PyPI publish). Use this to verify a
+#     release before tagging.
+#
+# We build with pyo3 abi3 (extension-module + abi3-py310), so one wheel per
+# platform covers Python 3.10+ — no per-Python matrix needed.
 #
 # PyPI auth: trusted publishing (OIDC). The `release` job runs in the
-# `pypi` GitHub environment and authenticates to PyPI without a long-lived
-# token. The publisher must be configured on pypi.org first — see README.
+# `pypi` GitHub environment.
 
 name: release
 
@@ -22,69 +24,57 @@ permissions:
 jobs:
   linux:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.12"
       - name: Build wheel
         uses: PyO3/maturin-action@v1
         with:
           target: x86_64
-          args: --release --out dist --interpreter python${{ matrix.python-version }}
+          args: --release --out dist
           manylinux: "2014"
           sccache: "true"
       - uses: actions/upload-artifact@v4
         with:
-          name: wheels-linux-x86_64-py${{ matrix.python-version }}
+          name: wheels-linux-x86_64
           path: dist/
 
   linux-arm:
     runs-on: ubuntu-24.04-arm
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.12"
       - name: Build wheel
         uses: PyO3/maturin-action@v1
         with:
           target: aarch64
-          args: --release --out dist --interpreter python${{ matrix.python-version }}
+          args: --release --out dist
           manylinux: "2014"
       - uses: actions/upload-artifact@v4
         with:
-          name: wheels-linux-aarch64-py${{ matrix.python-version }}
+          name: wheels-linux-aarch64
           path: dist/
 
   macos:
     runs-on: macos-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.12"
       - name: Build wheel
         uses: PyO3/maturin-action@v1
         with:
           target: universal2-apple-darwin
-          args: --release --out dist --interpreter python${{ matrix.python-version }}
+          args: --release --out dist
           sccache: "true"
       - uses: actions/upload-artifact@v4
         with:
-          name: wheels-macos-py${{ matrix.python-version }}
+          name: wheels-macos-universal2
           path: dist/
 
   sdist:
@@ -110,7 +100,7 @@ jobs:
       name: pypi
       url: https://pypi.org/p/libpnet-pyo3
     permissions:
-      id-token: write  # trusted publishing (OIDC)
+      id-token: write
     steps:
       - uses: actions/download-artifact@v4
         with:
